@@ -1,0 +1,45 @@
+<template>
+    <lightning-input-rich-text 
+        value={richTextValue} 
+        onchange={contentAddedHandler} 
+        disabled-categories="FORMAT_BODY,ALIGN_TEXT,INSERT_CONTENT,REMOVE_FORMATTING">
+
+        <lightning-rich-text-toolbar-button-group 
+            slot="toolbar" 
+            aria-label="Template Button Group">
+            <lightning-rich-text-toolbar-button
+                icon-name="utility:merge_field"
+                icon-alternative-text="Add Merge Field" 
+                onclick={addMergeField}>
+            </lightning-rich-text-toolbar-button>
+            
+        </lightning-rich-text-toolbar-button-group>
+    </lightning-input-rich-text>
+
+    <template if:true={showFieldSelectionDialg}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header slds-text-heading_label grey-background">
+                    <h2>Select Field</h2>
+                </header>
+                <div class="slds-modal__content slds-var-p-around_medium">
+                    <template if:true={fieldOptions}>
+                        <ul id="opListId" class="optionListUL">
+                            <template for:each={fieldOptions} for:item="fieldItem">
+                                <li key={fieldItem.value}>
+                                    <a onclick={fieldSelecetedHandler} data-field={fieldItem.value} data-label={fieldItem.label}>
+                                        <span>{fieldItem.label}</span>
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer grey-background">
+                    <lightning-button onclick={closeSelectFieldPopup} label="Cancel" variant="netrual"></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" id="backdropSelectFieldPopup"></div>
+    </template>
+</template>
